@@ -8,12 +8,16 @@ import serial.tools.list_ports
 import csv
 from collections import Counter
 
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 # Load YOLOv8 model
 model = YOLO('best.pt')
 
 # Plate save directory
 save_dir = 'plates'
 os.makedirs(save_dir, exist_ok=True)
+
+# "C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # CSV log file
 csv_file = 'plates_log.csv'
@@ -26,7 +30,7 @@ if not os.path.exists(csv_file):
 def detect_arduino_port():
     ports = list(serial.tools.list_ports.comports())
     for port in ports:
-        if "COM12" in port.device or "wchusbmodem" in port.device:
+        if "COM" in port.device or "wchusbmodem" in port.device:
             return port.device
     return None
 
